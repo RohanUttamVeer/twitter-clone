@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twitter_clone/apis/notification_api.dart';
-import 'package:twitter_clone/core/enums/notification_type_enum.dart';
-import 'package:twitter_clone/models/notification_model.dart' as model;
+import 'package:socially/apis/notification_api.dart';
+import 'package:socially/core/enums/notification_type_enum.dart';
+import 'package:socially/models/notification_model.dart' as model;
 
 final notificationControllerProvider =
     StateNotifierProvider<NotificationController, bool>((ref) {

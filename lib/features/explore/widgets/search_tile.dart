@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:twitter_clone/features/user_profile/view/user_profile_view.dart';
-import 'package:twitter_clone/models/user_model.dart';
-import 'package:twitter_clone/theme/pallete.dart';
+import 'package:socially/features/user_profile/view/user_profile_view.dart';
+import 'package:socially/models/user_model.dart';
+import 'package:socially/theme/pallete.dart';
 
 class SearchTile extends StatelessWidget {
   final UserModel userModel;

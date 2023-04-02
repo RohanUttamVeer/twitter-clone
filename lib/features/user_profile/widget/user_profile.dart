@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:twitter_clone/common/error_page.dart';
-import 'package:twitter_clone/common/loading_page.dart';
-import 'package:twitter_clone/constants/constants.dart';
-import 'package:twitter_clone/features/auth/controller/auth_controller.dart';
-import 'package:twitter_clone/features/tweet/widgets/tweet_card.dart';
-import 'package:twitter_clone/features/user_profile/controller/user_profile_controller.dart';
-import 'package:twitter_clone/features/user_profile/view/edit_profile_view.dart';
-import 'package:twitter_clone/features/user_profile/widget/follow_count.dart';
-import 'package:twitter_clone/models/user_model.dart';
-import 'package:twitter_clone/theme/pallete.dart';
+import 'package:socially/common/error_page.dart';
+import 'package:socially/common/loading_page.dart';
+import 'package:socially/constants/constants.dart';
+import 'package:socially/features/auth/controller/auth_controller.dart';
+import 'package:socially/features/post/widgets/post_card.dart';
+import 'package:socially/features/user_profile/controller/user_profile_controller.dart';
+import 'package:socially/features/user_profile/view/edit_profile_view.dart';
+import 'package:socially/features/user_profile/widget/follow_count.dart';
+import 'package:socially/models/user_model.dart';
+import 'package:socially/theme/pallete.dart';
 
 class UserProfile extends ConsumerWidget {
   final UserModel user;
@@ -151,15 +151,15 @@ class UserProfile extends ConsumerWidget {
                 ),
               ];
             },
-            body: ref.watch(getUserTweetsProvider(user.uid)).when(
-                  data: (tweets) {
+            body: ref.watch(getUserPostProvider(user.uid)).when(
+                  data: (posts) {
                     // can make it realtime by copying code
-                    // from twitter_reply_view
+                    // from post_reply_view
                     return ListView.builder(
-                      itemCount: tweets.length,
+                      itemCount: posts.length,
                       itemBuilder: (BuildContext context, int index) {
-                        final tweet = tweets[index];
-                        return TweetCard(tweet: tweet);
+                        final post = posts[index];
+                        return PostCard(post: post);
                       },
                     );
                   },

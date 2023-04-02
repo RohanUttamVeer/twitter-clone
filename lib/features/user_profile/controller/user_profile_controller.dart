@@ -1,29 +1,30 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twitter_clone/apis/storage_api.dart';
-import 'package:twitter_clone/apis/tweet_api.dart';
-import 'package:twitter_clone/apis/user_api.dart';
-import 'package:twitter_clone/core/enums/notification_type_enum.dart';
-import 'package:twitter_clone/core/utils.dart';
-import 'package:twitter_clone/features/notifications/controller/notification_controller.dart';
-import 'package:twitter_clone/models/tweet_model.dart';
-import 'package:twitter_clone/models/user_model.dart';
+import 'package:socially/apis/storage_api.dart';
+import 'package:socially/apis/user_api.dart';
+import 'package:socially/core/enums/notification_type_enum.dart';
+import 'package:socially/core/utils.dart';
+import 'package:socially/features/notifications/controller/notification_controller.dart';
+import 'package:socially/models/user_model.dart';
+
+import '../../../apis/post_api.dart';
+import '../../../models/post_model.dart';
 
 final userProfileControllerProvider =
     StateNotifierProvider<UserProfileController, bool>((ref) {
   return UserProfileController(
-    tweetAPI: ref.watch(tweetAPIProvider),
+    postAPI: ref.watch(postAPIProvider),
     storageAPI: ref.watch(storageAPIProvider),
     userAPI: ref.watch(userAPIProvider),
     notificationController: ref.watch(notificationControllerProvider.notifier),
   );
 });
 
-final getUserTweetsProvider = FutureProvider.family((ref, String uid) async {
+final getUserPostProvider = FutureProvider.family((ref, String uid) async {
   final userProfileController =
       ref.watch(userProfileControllerProvider.notifier);
-  return userProfileController.getUserTweets(uid);
+  return userProfileController.getUserPosts(uid);
 });
 
 final getLatestUserProfileDataProvider = StreamProvider((ref) {
@@ -32,24 +33,24 @@ final getLatestUserProfileDataProvider = StreamProvider((ref) {
 });
 
 class UserProfileController extends StateNotifier<bool> {
-  final TweetAPI _tweetAPI;
+  final PostAPI _postAPI;
   final StorageAPI _storageAPI;
   final UserAPI _userAPI;
   final NotificationController _notificationController;
   UserProfileController({
-    required TweetAPI tweetAPI,
+    required PostAPI postAPI,
     required StorageAPI storageAPI,
     required UserAPI userAPI,
     required NotificationController notificationController,
-  })  : _tweetAPI = tweetAPI,
+  })  : _postAPI = postAPI,
         _storageAPI = storageAPI,
         _userAPI = userAPI,
         _notificationController = notificationController,
         super(false);
 
-  Future<List<Tweet>> getUserTweets(String uid) async {
-    final tweets = await _tweetAPI.getUserTweets(uid);
-    return tweets.map((e) => Tweet.fromMap(e.data)).toList();
+  Future<List<Post>> getUserPosts(String uid) async {
+    final posts = await _postAPI.getUserPosts(uid);
+    return posts.map((e) => Post.fromMap(e.data)).toList();
   }
 
   void updateUserProfile({

@@ -2,17 +2,17 @@ enum NotificationType {
   like('like'),
   reply('reply'),
   follow('follow'),
-  retweet('retweet');
+  repost('repost');
 
   final String type;
   const NotificationType(this.type);
 }
 
-extension ConvertTweet on String {
+extension ConvertPost on String {
   NotificationType toNotificationTypeEnum() {
     switch (this) {
-      case 'retweet':
-        return NotificationType.retweet;
+      case 'repost':
+        return NotificationType.repost;
       case 'follow':
         return NotificationType.follow;
       case 'reply':

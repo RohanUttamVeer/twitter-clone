@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twitter_clone/apis/user_api.dart';
-import 'package:twitter_clone/models/user_model.dart';
+import 'package:socially/apis/user_api.dart';
+import 'package:socially/models/user_model.dart';
 
 final exploreControllerProvider = StateNotifierProvider((ref) {
   return ExploreController(

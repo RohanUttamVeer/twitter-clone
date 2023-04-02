@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "twitter_clone" "\0"
+            VALUE "FileDescription", "socially" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "twitter_clone" "\0"
+            VALUE "InternalName", "socially" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "twitter_clone.exe" "\0"
-            VALUE "ProductName", "twitter_clone" "\0"
+            VALUE "OriginalFilename", "socially.exe" "\0"
+            VALUE "ProductName", "socially" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

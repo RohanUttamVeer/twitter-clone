@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:twitter_clone/constants/constants.dart';
-import 'package:twitter_clone/core/enums/notification_type_enum.dart';
-import 'package:twitter_clone/models/notification_model.dart' as model;
-import 'package:twitter_clone/theme/pallete.dart';
+import 'package:socially/constants/constants.dart';
+import 'package:socially/core/enums/notification_type_enum.dart';
+import 'package:socially/models/notification_model.dart' as model;
+import 'package:socially/theme/pallete.dart';
 
 class NotificationTile extends StatelessWidget {
   final model.Notification notification;
@@ -26,9 +25,9 @@ class NotificationTile extends StatelessWidget {
                   color: Pallete.lightPurpleColor,
                   height: 20,
                 )
-              : notification.notificationType == NotificationType.retweet
+              : notification.notificationType == NotificationType.repost
                   ? Image.asset(
-                      AssetsConstants.retweetIcon,
+                      AssetsConstants.repostIcon,
                       color: Pallete.lightPurpleColor,
                       height: 20,
                     )

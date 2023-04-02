@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twitter_clone/common/common.dart';
-import 'package:twitter_clone/features/tweet/controller/tweet_controller.dart';
-import 'package:twitter_clone/features/tweet/widgets/tweet_card.dart';
+import 'package:socially/common/common.dart';
+import 'package:socially/features/post/controller/post_controller.dart';
+import 'package:socially/features/post/widgets/post_card.dart';
 
 class HashtagView extends ConsumerWidget {
   static route(String hashtag) => MaterialPageRoute(
@@ -22,13 +22,13 @@ class HashtagView extends ConsumerWidget {
       appBar: AppBar(
         title: Text(hashtag),
       ),
-      body: ref.watch(getTweetsByHashtagProvider(hashtag)).when(
-            data: (tweets) {
+      body: ref.watch(getPostsByHashtagProvider(hashtag)).when(
+            data: (posts) {
               return ListView.builder(
-                itemCount: tweets.length,
+                itemCount: posts.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final tweet = tweets[index];
-                  return TweetCard(tweet: tweet);
+                  final post = posts[index];
+                  return PostCard(post: post);
                 },
               );
             },

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:twitter_clone/constants/constants.dart';
-import 'package:twitter_clone/features/explore/view/explore_view.dart';
-import 'package:twitter_clone/features/notifications/views/notification_view.dart';
-import 'package:twitter_clone/features/tweet/widgets/tweet_list.dart';
+import 'package:socially/constants/constants.dart';
+import 'package:socially/features/explore/view/explore_view.dart';
+import 'package:socially/features/notifications/views/notification_view.dart';
+import 'package:socially/features/post/widgets/post_list.dart';
 
 class UIConstants {
   static AppBar appBar() {
@@ -17,7 +17,7 @@ class UIConstants {
   }
 
   static const List<Widget> bottomTabBarPages = [
-    TweetList(),
+    PostList(),
     ExploreView(),
     NotificationView(),
   ];

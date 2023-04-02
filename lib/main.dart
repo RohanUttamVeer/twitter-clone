@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twitter_clone/common/common.dart';
-import 'package:twitter_clone/features/auth/controller/auth_controller.dart';
-import 'package:twitter_clone/features/auth/view/signup_view.dart';
-import 'package:twitter_clone/features/home/view/home_view.dart';
-import 'package:twitter_clone/theme/theme.dart';
+import 'package:socially/common/common.dart';
+import 'package:socially/features/auth/controller/auth_controller.dart';
+import 'package:socially/features/auth/view/signup_view.dart';
+import 'package:socially/features/home/view/home_view.dart';
+import 'package:socially/theme/theme.dart';
 
 void main() {
   runApp(

@@ -4,39 +4,39 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:twitter_clone/common/loading_page.dart';
-import 'package:twitter_clone/common/rounded_small_button.dart';
-import 'package:twitter_clone/constants/assets_constants.dart';
-import 'package:twitter_clone/core/utils.dart';
-import 'package:twitter_clone/features/auth/controller/auth_controller.dart';
-import 'package:twitter_clone/features/tweet/controller/tweet_controller.dart';
-import 'package:twitter_clone/theme/pallete.dart';
+import 'package:socially/common/loading_page.dart';
+import 'package:socially/common/rounded_small_button.dart';
+import 'package:socially/constants/assets_constants.dart';
+import 'package:socially/core/utils.dart';
+import 'package:socially/features/auth/controller/auth_controller.dart';
+import 'package:socially/features/post/controller/post_controller.dart';
+import 'package:socially/theme/pallete.dart';
 
-class CreateTweetScreen extends ConsumerStatefulWidget {
+class CreatePostScreen extends ConsumerStatefulWidget {
   static route() => MaterialPageRoute(
-        builder: (context) => const CreateTweetScreen(),
+        builder: (context) => const CreatePostScreen(),
       );
-  const CreateTweetScreen({super.key});
+  const CreatePostScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _CreateTweetScreenState();
+      _CreatePostScreenState();
 }
 
-class _CreateTweetScreenState extends ConsumerState<CreateTweetScreen> {
-  final tweetTextController = TextEditingController();
+class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
+  final postTextController = TextEditingController();
   List<File> images = [];
 
   @override
   void dispose() {
     super.dispose();
-    tweetTextController.dispose();
+    postTextController.dispose();
   }
 
-  void shareTweet() {
-    ref.read(tweetControllerProvider.notifier).shareTweet(
+  void sharePost() {
+    ref.read(postControllerProvider.notifier).sharePost(
           images: images,
-          text: tweetTextController.text,
+          text: postTextController.text,
           context: context,
           repliedTo: '',
           repliedToUserId: '',
@@ -52,7 +52,7 @@ class _CreateTweetScreenState extends ConsumerState<CreateTweetScreen> {
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(currentUserDetailsProvider).value;
-    final isLoading = ref.watch(tweetControllerProvider);
+    final isLoading = ref.watch(postControllerProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -64,7 +64,7 @@ class _CreateTweetScreenState extends ConsumerState<CreateTweetScreen> {
         ),
         actions: [
           RoundedSmallButton(
-            onTap: shareTweet,
+            onTap: sharePost,
             label: 'Post',
             backgroundColor: Pallete.deepPurpleAccentColor,
             textColor: Pallete.whiteColor,
@@ -86,12 +86,12 @@ class _CreateTweetScreenState extends ConsumerState<CreateTweetScreen> {
                         const SizedBox(width: 15),
                         Expanded(
                           child: TextField(
-                            controller: tweetTextController,
+                            controller: postTextController,
                             style: const TextStyle(
                               fontSize: 22,
                             ),
                             decoration: const InputDecoration(
-                              hintText: "What's happening?",
+                              hintText: "Share Your Honest Insights ...",
                               hintStyle: TextStyle(
                                 color: Pallete.lightPurpleColor,
                                 fontSize: 22,

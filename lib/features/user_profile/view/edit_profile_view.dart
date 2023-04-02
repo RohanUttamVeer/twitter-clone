@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twitter_clone/common/loading_page.dart';
-import 'package:twitter_clone/core/utils.dart';
-import 'package:twitter_clone/features/auth/controller/auth_controller.dart';
-import 'package:twitter_clone/features/user_profile/controller/user_profile_controller.dart';
-import 'package:twitter_clone/theme/theme.dart';
+import 'package:socially/common/loading_page.dart';
+import 'package:socially/core/utils.dart';
+import 'package:socially/features/auth/controller/auth_controller.dart';
+import 'package:socially/features/user_profile/controller/user_profile_controller.dart';
+import 'package:socially/theme/theme.dart';
 
 class EditProfileView extends ConsumerStatefulWidget {
   static route() => MaterialPageRoute(
@@ -84,7 +84,12 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                     profileFile: profileFile,
                   );
             },
-            child: const Text('Save'),
+            child: Text(
+              'Save',
+              style: TextStyle(
+                color: Pallete.lightPurpleColor,
+              ),
+            ),
           ),
         ],
       ),

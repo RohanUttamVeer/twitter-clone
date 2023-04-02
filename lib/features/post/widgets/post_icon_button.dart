@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:twitter_clone/theme/pallete.dart';
+import 'package:socially/theme/pallete.dart';
 
-class TweetIconButton extends StatelessWidget {
+class PostIconButton extends StatelessWidget {
   final String pathName;
   final String text;
   final VoidCallback onTap;
-  const TweetIconButton({
+  const PostIconButton({
     Key? key,
     required this.pathName,
     required this.text,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twitter_clone/common/loading_page.dart';
-import 'package:twitter_clone/features/auth/controller/auth_controller.dart';
-import 'package:twitter_clone/features/user_profile/controller/user_profile_controller.dart';
-import 'package:twitter_clone/features/user_profile/view/user_profile_view.dart';
-import 'package:twitter_clone/theme/pallete.dart';
+import 'package:socially/common/loading_page.dart';
+import 'package:socially/features/auth/controller/auth_controller.dart';
+import 'package:socially/features/user_profile/controller/user_profile_controller.dart';
+import 'package:socially/features/user_profile/view/user_profile_view.dart';
+import 'package:socially/theme/pallete.dart';
 
 class SideDrawer extends ConsumerWidget {
   const SideDrawer({super.key});

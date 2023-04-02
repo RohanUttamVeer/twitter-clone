@@ -2,10 +2,10 @@ import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as model;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:twitter_clone/constants/constants.dart';
-import 'package:twitter_clone/core/core.dart';
-import 'package:twitter_clone/core/providers.dart';
-import 'package:twitter_clone/models/user_model.dart';
+import 'package:socially/constants/constants.dart';
+import 'package:socially/core/core.dart';
+import 'package:socially/core/providers.dart';
+import 'package:socially/models/user_model.dart';
 
 final userAPIProvider = Provider((ref) {
   return UserAPI(

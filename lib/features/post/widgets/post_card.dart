@@ -3,25 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:like_button/like_button.dart';
-import 'package:twitter_clone/common/common.dart';
-import 'package:twitter_clone/constants/assets_constants.dart';
-import 'package:twitter_clone/core/enums/tweet_type_enum.dart';
-import 'package:twitter_clone/features/auth/controller/auth_controller.dart';
-import 'package:twitter_clone/features/tweet/controller/tweet_controller.dart';
-import 'package:twitter_clone/features/tweet/views/twitter_reply_view.dart';
-import 'package:twitter_clone/features/tweet/widgets/carousel_image.dart';
-import 'package:twitter_clone/features/tweet/widgets/hashtag_text.dart';
-import 'package:twitter_clone/features/tweet/widgets/tweet_icon_button.dart';
-import 'package:twitter_clone/features/user_profile/view/user_profile_view.dart';
-import 'package:twitter_clone/models/tweet_model.dart';
-import 'package:twitter_clone/theme/pallete.dart';
+import 'package:socially/common/common.dart';
+import 'package:socially/constants/assets_constants.dart';
+import 'package:socially/features/auth/controller/auth_controller.dart';
+import 'package:socially/features/post/views/post_reply_view.dart';
+import 'package:socially/features/post/widgets/carousel_image.dart';
+import 'package:socially/features/post/widgets/hashtag_text.dart';
+import 'package:socially/features/user_profile/view/user_profile_view.dart';
+import 'package:socially/models/post_model.dart';
+import 'package:socially/theme/pallete.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class TweetCard extends ConsumerWidget {
-  final Tweet tweet;
-  const TweetCard({
+import '../../../core/enums/post_type_enum.dart';
+import '../controller/post_controller.dart';
+import 'post_icon_button.dart';
+
+class PostCard extends ConsumerWidget {
+  final Post post;
+  const PostCard({
     super.key,
-    required this.tweet,
+    required this.post,
   });
 
   @override
@@ -34,13 +35,13 @@ class TweetCard extends ConsumerWidget {
     colorList.shuffle();
     return currentUser == null
         ? const SizedBox()
-        : ref.watch(userDetailsProvider(tweet.uid)).when(
+        : ref.watch(userDetailsProvider(post.uid)).when(
               data: (user) {
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
-                      TwitterReplyScreen.route(tweet),
+                      PostReplyScreen.route(post),
                     );
                   },
                   child: Container(
@@ -83,17 +84,17 @@ class TweetCard extends ConsumerWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  if (tweet.rePostedBy.isNotEmpty)
+                                  if (post.rePostedBy.isNotEmpty)
                                     Row(
                                       children: [
                                         SvgPicture.asset(
-                                          AssetsConstants.retweetIcon,
+                                          AssetsConstants.repostIcon,
                                           color: Pallete.lightPurpleColor,
                                           height: 20,
                                         ),
                                         const SizedBox(width: 2),
                                         Text(
-                                          '${tweet.rePostedBy} retweeted',
+                                          '${post.rePostedBy} reposted',
                                           style: const TextStyle(
                                             color: Pallete.lightPurpleColor,
                                             fontSize: 16,
@@ -126,7 +127,7 @@ class TweetCard extends ConsumerWidget {
                                         ),
                                       Text(
                                         '@${user.name} · ${timeago.format(
-                                          tweet.postedAt,
+                                          post.postedAt,
                                           locale: 'en_short',
                                         )}',
                                         style: const TextStyle(
@@ -136,16 +137,16 @@ class TweetCard extends ConsumerWidget {
                                       ),
                                     ],
                                   ),
-                                  if (tweet.repliedTo.isNotEmpty)
+                                  if (post.repliedTo.isNotEmpty)
                                     ref
-                                        .watch(getTweetByIdProvider(
-                                            tweet.repliedTo))
+                                        .watch(
+                                            getPostByIdProvider(post.repliedTo))
                                         .when(
-                                          data: (repliedToTweet) {
+                                          data: (repliedTopost) {
                                             final replyingToUser = ref
                                                 .watch(
                                                   userDetailsProvider(
-                                                    repliedToTweet.uid,
+                                                    repliedTopost.uid,
                                                   ),
                                                 )
                                                 .value;
@@ -163,7 +164,7 @@ class TweetCard extends ConsumerWidget {
                                                         ' @${replyingToUser?.name}',
                                                     style: const TextStyle(
                                                       color: Pallete
-                                                          .deepPurpleAccentColor,
+                                                          .lightPurpleColor,
                                                       fontSize: 16,
                                                     ),
                                                   ),
@@ -176,15 +177,15 @@ class TweetCard extends ConsumerWidget {
                                           ),
                                           loading: () => const SizedBox(),
                                         ),
-                                  HashtagText(text: tweet.text),
-                                  if (tweet.postType == TweetType.image)
-                                    CarouselImage(imageLinks: tweet.imageLinks),
-                                  if (tweet.link.isNotEmpty) ...[
+                                  HashtagText(text: post.text),
+                                  if (post.postType == PostType.image)
+                                    CarouselImage(imageLinks: post.imageLinks),
+                                  if (post.link.isNotEmpty) ...[
                                     const SizedBox(height: 4),
                                     AnyLinkPreview(
                                       displayDirection:
                                           UIDirection.uiDirectionHorizontal,
-                                      link: 'https://${tweet.link}',
+                                      link: 'https://${post.link}',
                                     ),
                                   ],
                                   Container(
@@ -196,29 +197,29 @@ class TweetCard extends ConsumerWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        TweetIconButton(
+                                        PostIconButton(
                                           pathName: AssetsConstants.viewsIcon,
-                                          text: (tweet.commentIds.length +
-                                                  tweet.reshareCount +
-                                                  tweet.likes.length)
+                                          text: (post.commentIds.length +
+                                                  post.reshareCount +
+                                                  post.likes.length)
                                               .toString(),
                                           onTap: () {},
                                         ),
-                                        TweetIconButton(
+                                        PostIconButton(
                                           pathName: AssetsConstants.commentIcon,
-                                          text: tweet.commentIds.length
-                                              .toString(),
+                                          text:
+                                              post.commentIds.length.toString(),
                                           onTap: () {},
                                         ),
-                                        TweetIconButton(
-                                          pathName: AssetsConstants.retweetIcon,
-                                          text: tweet.reshareCount.toString(),
+                                        PostIconButton(
+                                          pathName: AssetsConstants.repostIcon,
+                                          text: post.reshareCount.toString(),
                                           onTap: () {
                                             ref
-                                                .read(tweetControllerProvider
+                                                .read(postControllerProvider
                                                     .notifier)
-                                                .reshareTweet(
-                                                  tweet,
+                                                .resharePost(
+                                                  post,
                                                   currentUser,
                                                   context,
                                                 );
@@ -228,15 +229,15 @@ class TweetCard extends ConsumerWidget {
                                           size: 25,
                                           onTap: (isLiked) async {
                                             ref
-                                                .read(tweetControllerProvider
+                                                .read(postControllerProvider
                                                     .notifier)
-                                                .likeTweet(
-                                                  tweet,
+                                                .likePost(
+                                                  post,
                                                   currentUser,
                                                 );
                                             return !isLiked;
                                           },
-                                          isLiked: tweet.likes
+                                          isLiked: post.likes
                                               .contains(currentUser.uid),
                                           likeBuilder: (isLiked) {
                                             return isLiked
@@ -253,7 +254,7 @@ class TweetCard extends ConsumerWidget {
                                                         .lightPurpleColor,
                                                   );
                                           },
-                                          likeCount: tweet.likes.length,
+                                          likeCount: post.likes.length,
                                           countBuilder:
                                               (likeCount, isLiked, text) {
                                             return Padding(

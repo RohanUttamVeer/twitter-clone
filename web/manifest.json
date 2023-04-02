@@ -1,6 +1,6 @@
 {
-    "name": "twitter_clone",
-    "short_name": "twitter_clone",
+    "name": "socially",
+    "short_name": "socially",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

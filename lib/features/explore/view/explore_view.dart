@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twitter_clone/common/error_page.dart';
-import 'package:twitter_clone/common/loading_page.dart';
-import 'package:twitter_clone/features/explore/controller/explore_controller.dart';
-import 'package:twitter_clone/features/explore/widgets/search_tile.dart';
-import 'package:twitter_clone/theme/pallete.dart';
+import 'package:socially/common/error_page.dart';
+import 'package:socially/common/loading_page.dart';
+import 'package:socially/features/explore/controller/explore_controller.dart';
+import 'package:socially/features/explore/widgets/search_tile.dart';
+import 'package:socially/theme/pallete.dart';
 
 class ExploreView extends ConsumerStatefulWidget {
   const ExploreView({super.key});

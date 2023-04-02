@@ -1,23 +1,26 @@
 import 'dart:io';
 
+
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twitter_clone/apis/storage_api.dart';
-import 'package:twitter_clone/apis/tweet_api.dart';
-import 'package:twitter_clone/core/enums/notification_type_enum.dart';
-import 'package:twitter_clone/core/enums/tweet_type_enum.dart';
-import 'package:twitter_clone/core/utils.dart';
-import 'package:twitter_clone/features/auth/controller/auth_controller.dart';
-import 'package:twitter_clone/features/notifications/controller/notification_controller.dart';
-import 'package:twitter_clone/models/tweet_model.dart';
-import 'package:twitter_clone/models/user_model.dart';
 
-final tweetControllerProvider = StateNotifierProvider<TweetController, bool>(
+import '../../../apis/post_api.dart';
+import '../../../apis/storage_api.dart';
+import '../../../core/enums/notification_type_enum.dart';
+import '../../../core/enums/post_type_enum.dart';
+import '../../../core/utils.dart';
+import '../../../models/post_model.dart';
+import '../../../models/user_model.dart';
+import '../../auth/controller/auth_controller.dart';
+import '../../notifications/controller/notification_controller.dart';
+// import '../../../core/enums/tweet_type_enum.dart';
+
+final postControllerProvider = StateNotifierProvider<PostController, bool>(
   (ref) {
-    return TweetController(
+    return PostController(
       ref: ref,
-      tweetAPI: ref.watch(tweetAPIProvider),
+      postAPI: ref.watch(postAPIProvider),
       storageAPI: ref.watch(storageAPIProvider),
       notificationController:
           ref.watch(notificationControllerProvider.notifier),
@@ -25,117 +28,117 @@ final tweetControllerProvider = StateNotifierProvider<TweetController, bool>(
   },
 );
 
-final getTweetsProvider = FutureProvider((ref) {
-  final tweetController = ref.watch(tweetControllerProvider.notifier);
-  return tweetController.getTweets();
+final getPostsProvider = FutureProvider((ref) {
+  final postController = ref.watch(postControllerProvider.notifier);
+  return postController.getPosts();
 });
 
-final getRepliesToTweetsProvider = FutureProvider.family((ref, Tweet tweet) {
-  final tweetController = ref.watch(tweetControllerProvider.notifier);
-  return tweetController.getRepliesToTweet(tweet);
+final getRepliesToPostsProvider = FutureProvider.family((ref, Post post) {
+  final postController = ref.watch(postControllerProvider.notifier);
+  return postController.getRepliesToPost(post);
 });
 
-final getLatestTweetProvider = StreamProvider((ref) {
-  final tweetAPI = ref.watch(tweetAPIProvider);
-  return tweetAPI.getLatestTweet();
+final getLatestPostProvider = StreamProvider((ref) {
+  final postAPI = ref.watch(postAPIProvider);
+  return postAPI.getLatestPost();
 });
 
-final getTweetByIdProvider = FutureProvider.family((ref, String id) async {
-  final tweetController = ref.watch(tweetControllerProvider.notifier);
-  return tweetController.getTweetById(id);
+final getPostByIdProvider = FutureProvider.family((ref, String id) async {
+  final postController = ref.watch(postControllerProvider.notifier);
+  return postController.getPostById(id);
 });
 
-final getTweetsByHashtagProvider = FutureProvider.family((ref, String hashtag) {
-  final tweetController = ref.watch(tweetControllerProvider.notifier);
-  return tweetController.getTweetsByHashtag(hashtag);
+final getPostsByHashtagProvider = FutureProvider.family((ref, String hashtag) {
+  final postController = ref.watch(postControllerProvider.notifier);
+  return postController.getPostsByHashtag(hashtag);
 });
 
-class TweetController extends StateNotifier<bool> {
-  final TweetAPI _tweetAPI;
+class PostController extends StateNotifier<bool> {
+  final PostAPI _postAPI;
   final StorageAPI _storageAPI;
   final NotificationController _notificationController;
   final Ref _ref;
-  TweetController({
+  PostController({
     required Ref ref,
-    required TweetAPI tweetAPI,
+    required PostAPI postAPI,
     required StorageAPI storageAPI,
     required NotificationController notificationController,
   })  : _ref = ref,
-        _tweetAPI = tweetAPI,
+        _postAPI = postAPI,
         _storageAPI = storageAPI,
         _notificationController = notificationController,
         super(false);
 
-  Future<List<Tweet>> getTweets() async {
-    final tweetList = await _tweetAPI.getTweets();
-    return tweetList.map((tweet) => Tweet.fromMap(tweet.data)).toList();
+  Future<List<Post>> getPosts() async {
+    final postList = await _postAPI.getPosts();
+    return postList.map((post) => Post.fromMap(post.data)).toList();
   }
 
-  Future<Tweet> getTweetById(String id) async {
-    final tweet = await _tweetAPI.getTweetById(id);
-    return Tweet.fromMap(tweet.data);
+  Future<Post> getPostById(String id) async {
+    final post = await _postAPI.getPostById(id);
+    return Post.fromMap(post.data);
   }
 
-  void likeTweet(Tweet tweet, UserModel user) async {
-    List<String> likes = tweet.likes;
+  void likePost(Post post, UserModel user) async {
+    List<String> likes = post.likes;
 
-    if (tweet.likes.contains(user.uid)) {
+    if (post.likes.contains(user.uid)) {
       likes.remove(user.uid);
     } else {
       likes.add(user.uid);
     }
 
-    tweet = tweet.copyWith(likes: likes);
-    final res = await _tweetAPI.likeTweet(tweet);
+    post = post.copyWith(likes: likes);
+    final res = await _postAPI.likePost(post);
     res.fold((l) => null, (r) {
       _notificationController.createNotification(
-        text: '${user.name} liked your tweet!',
-        postId: tweet.id,
+        text: '${user.name} liked your Post!',
+        postId: post.id,
         notificationType: NotificationType.like,
-        uid: tweet.uid,
+        uid: post.uid,
       );
     });
   }
 
-  void reshareTweet(
-    Tweet tweet,
+  void resharePost(
+    Post post,
     UserModel currentUser,
     BuildContext context,
   ) async {
-    tweet = tweet.copyWith(
+    post = post.copyWith(
       rePostedBy: currentUser.name,
       likes: [],
       commentIds: [],
-      reshareCount: tweet.reshareCount + 1,
+      reshareCount: post.reshareCount + 1,
     );
 
-    final res = await _tweetAPI.updateReshareCount(tweet);
+    final res = await _postAPI.updateReshareCount(post);
     res.fold(
       (l) => showSnackBar(context, l.message),
       (r) async {
-        tweet = tweet.copyWith(
+        post = post.copyWith(
           id: ID.unique(),
           reshareCount: 0,
           postedAt: DateTime.now(),
         );
-        final res2 = await _tweetAPI.shareTweet(tweet);
+        final res2 = await _postAPI.sharePost(post);
         res2.fold(
           (l) => showSnackBar(context, l.message),
           (r) {
             _notificationController.createNotification(
-              text: '${currentUser.name} reshared your tweet!',
-              postId: tweet.id,
-              notificationType: NotificationType.retweet,
-              uid: tweet.uid,
+              text: '${currentUser.name} reshared your Post!',
+              postId: post.id,
+              notificationType: NotificationType.repost,
+              uid: post.uid,
             );
-            showSnackBar(context, 'Retweeted!');
+            showSnackBar(context, 'Re-Posted!');
           },
         );
       },
     );
   }
 
-  void shareTweet({
+  void sharePost({
     required List<File> images,
     required String text,
     required BuildContext context,
@@ -148,7 +151,7 @@ class TweetController extends StateNotifier<bool> {
     }
 
     if (images.isNotEmpty) {
-      _shareImageTweet(
+      _shareImagePost(
         images: images,
         text: text,
         context: context,
@@ -156,7 +159,7 @@ class TweetController extends StateNotifier<bool> {
         repliedToUserId: repliedToUserId,
       );
     } else {
-      _shareTextTweet(
+      _shareTextPost(
         text: text,
         context: context,
         repliedTo: repliedTo,
@@ -165,17 +168,17 @@ class TweetController extends StateNotifier<bool> {
     }
   }
 
-  Future<List<Tweet>> getRepliesToTweet(Tweet tweet) async {
-    final documents = await _tweetAPI.getRepliesToTweet(tweet);
-    return documents.map((tweet) => Tweet.fromMap(tweet.data)).toList();
+  Future<List<Post>> getRepliesToPost(Post post) async {
+    final documents = await _postAPI.getRepliesToPost(post);
+    return documents.map((post) => Post.fromMap(post.data)).toList();
   }
 
-  Future<List<Tweet>> getTweetsByHashtag(String hashtag) async {
-    final documents = await _tweetAPI.getTweetsByHashtag(hashtag);
-    return documents.map((tweet) => Tweet.fromMap(tweet.data)).toList();
+  Future<List<Post>> getPostsByHashtag(String hashtag) async {
+    final documents = await _postAPI.getPostsByHashtag(hashtag);
+    return documents.map((post) => Post.fromMap(post.data)).toList();
   }
 
-  void _shareImageTweet({
+  void _shareImagePost({
     required List<File> images,
     required String text,
     required BuildContext context,
@@ -187,13 +190,13 @@ class TweetController extends StateNotifier<bool> {
     String link = _getLinkFromText(text);
     final user = _ref.read(currentUserDetailsProvider).value!;
     final imageLinks = await _storageAPI.uploadImage(images);
-    Tweet tweet = Tweet(
+    Post post = Post(
       text: text,
       hashtags: hashtags,
       link: link,
       imageLinks: imageLinks,
       uid: user.uid,
-      postType: TweetType.image,
+      postType: PostType.image,
       postedAt: DateTime.now(),
       likes: const [],
       commentIds: const [],
@@ -202,12 +205,12 @@ class TweetController extends StateNotifier<bool> {
       rePostedBy: '',
       repliedTo: repliedTo,
     );
-    final res = await _tweetAPI.shareTweet(tweet);
+    final res = await _postAPI.sharePost(post);
 
     res.fold((l) => showSnackBar(context, l.message), (r) {
       if (repliedToUserId.isNotEmpty) {
         _notificationController.createNotification(
-          text: '${user.name} replied to your tweet!',
+          text: '${user.name} replied to your post!',
           postId: r.$id,
           notificationType: NotificationType.reply,
           uid: repliedToUserId,
@@ -217,7 +220,7 @@ class TweetController extends StateNotifier<bool> {
     state = false;
   }
 
-  void _shareTextTweet({
+  void _shareTextPost({
     required String text,
     required BuildContext context,
     required String repliedTo,
@@ -227,13 +230,13 @@ class TweetController extends StateNotifier<bool> {
     final hashtags = _getHashtagsFromText(text);
     String link = _getLinkFromText(text);
     final user = _ref.read(currentUserDetailsProvider).value!;
-    Tweet tweet = Tweet(
+    Post post = Post(
       text: text,
       hashtags: hashtags,
       link: link,
       imageLinks: const [],
       uid: user.uid,
-      postType: TweetType.text,
+      postType: PostType.text,
       postedAt: DateTime.now(),
       likes: const [],
       commentIds: const [],
@@ -242,11 +245,11 @@ class TweetController extends StateNotifier<bool> {
       rePostedBy: '',
       repliedTo: repliedTo,
     );
-    final res = await _tweetAPI.shareTweet(tweet);
+    final res = await _postAPI.sharePost(post);
     res.fold((l) => showSnackBar(context, l.message), (r) {
       if (repliedToUserId.isNotEmpty) {
         _notificationController.createNotification(
-          text: '${user.name} replied to your tweet!',
+          text: '${user.name} replied to your post!',
           postId: r.$id,
           notificationType: NotificationType.reply,
           uid: repliedToUserId,

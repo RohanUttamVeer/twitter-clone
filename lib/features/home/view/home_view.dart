@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:twitter_clone/constants/constants.dart';
-import 'package:twitter_clone/features/home/widgets/side_drawer.dart';
-import 'package:twitter_clone/features/tweet/views/create_tweet_view.dart';
-import 'package:twitter_clone/theme/pallete.dart';
+import 'package:socially/constants/constants.dart';
+import 'package:socially/features/home/widgets/side_drawer.dart';
+import 'package:socially/theme/pallete.dart';
 
 import '../../../core/utils.dart';
+import '../../post/views/create_post_view.dart';
 
 class HomeView extends StatefulWidget {
   static route() => MaterialPageRoute(
@@ -30,7 +30,7 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
-  onCreateTweet() {
+  onCreatePost() {
     if (_buttonEnabled) {
       // disable the button
       setState(() {
@@ -43,7 +43,7 @@ class _HomeViewState extends State<HomeView> {
           _buttonEnabled = true;
         });
       });
-      Navigator.push(context, CreateTweetScreen.route());
+      Navigator.push(context, CreatePostScreen.route());
 
       // your button logic here
     } else {
@@ -72,7 +72,7 @@ class _HomeViewState extends State<HomeView> {
         children: UIConstants.bottomTabBarPages,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: onCreateTweet,
+        onPressed: onCreatePost,
         child: const Icon(
           Icons.add,
           color: Pallete.whiteColor,

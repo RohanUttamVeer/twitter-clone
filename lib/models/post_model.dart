@@ -1,15 +1,16 @@
 import 'package:flutter/foundation.dart';
 
-import 'package:twitter_clone/core/enums/tweet_type_enum.dart';
+import '../core/enums/post_type_enum.dart';
+
 
 @immutable
-class Tweet {
+class Post {
   final String text;
   final List<String> hashtags;
   final String link;
   final List<String> imageLinks;
   final String uid;
-  final TweetType postType;
+  final PostType postType;
   final DateTime postedAt;
   final List<String> likes;
   final List<String> commentIds;
@@ -17,7 +18,7 @@ class Tweet {
   final int reshareCount;
   final String rePostedBy;
   final String repliedTo;
-  const Tweet({
+  const Post({
     required this.text,
     required this.hashtags,
     required this.link,
@@ -33,13 +34,13 @@ class Tweet {
     required this.repliedTo,
   });
 
-  Tweet copyWith({
+  Post copyWith({
     String? text,
     List<String>? hashtags,
     String? link,
     List<String>? imageLinks,
     String? uid,
-    TweetType? postType,
+    PostType? postType,
     DateTime? postedAt,
     List<String>? likes,
     List<String>? commentIds,
@@ -48,7 +49,7 @@ class Tweet {
     String? rePostedBy,
     String? repliedTo,
   }) {
-    return Tweet(
+    return Post(
       text: text ?? this.text,
       hashtags: hashtags ?? this.hashtags,
       link: link ?? this.link,
@@ -84,14 +85,14 @@ class Tweet {
     return result;
   }
 
-  factory Tweet.fromMap(Map<String, dynamic> map) {
-    return Tweet(
+  factory Post.fromMap(Map<String, dynamic> map) {
+    return Post(
       text: map['text'] as String,
       hashtags: List<String>.from(map['hashtags']),
       link: map['link'] as String,
       imageLinks: List<String>.from(map['imageLinks']),
       uid: map['uid'] as String,
-      postType: (map['postType'] as String).topostTypeEnum(),
+      postType: (map['postType'] as String).toPostTypeEnum(),
       postedAt: DateTime.fromMillisecondsSinceEpoch(map['postedAt'] as int),
       likes: List<String>.from(map['likes']),
       commentIds: List<String>.from(map['commentId']),
@@ -104,14 +105,14 @@ class Tweet {
 
   @override
   String toString() {
-    return 'Tweet(text: $text, hashtags: $hashtags, link: $link, imageLinks: $imageLinks, uid: $uid, postType: $postType, postedAt: $postedAt, likes: $likes, commentId: $commentIds, id: $id, reshareCount: $reshareCount, rePostedBy: $rePostedBy, repliedTo: $repliedTo)';
+    return 'Post(text: $text, hashtags: $hashtags, link: $link, imageLinks: $imageLinks, uid: $uid, postType: $postType, postedAt: $postedAt, likes: $likes, commentId: $commentIds, id: $id, reshareCount: $reshareCount, rePostedBy: $rePostedBy, repliedTo: $repliedTo)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Tweet &&
+    return other is Post &&
         other.text == text &&
         listEquals(other.hashtags, hashtags) &&
         other.link == link &&

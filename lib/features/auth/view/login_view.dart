@@ -1,13 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twitter_clone/common/loading_page.dart';
-import 'package:twitter_clone/common/rounded_small_button.dart';
-import 'package:twitter_clone/constants/constants.dart';
-import 'package:twitter_clone/features/auth/controller/auth_controller.dart';
-import 'package:twitter_clone/features/auth/view/signup_view.dart';
-import 'package:twitter_clone/features/auth/widgets/auth_field.dart';
-import 'package:twitter_clone/theme/pallete.dart';
+import 'package:socially/common/loading_page.dart';
+import 'package:socially/common/rounded_small_button.dart';
+import 'package:socially/constants/constants.dart';
+import 'package:socially/features/auth/controller/auth_controller.dart';
+import 'package:socially/features/auth/view/signup_view.dart';
+import 'package:socially/features/auth/widgets/auth_field.dart';
+import 'package:socially/theme/pallete.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   static route() => MaterialPageRoute(
