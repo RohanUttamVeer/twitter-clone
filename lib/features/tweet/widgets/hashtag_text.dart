@@ -20,7 +20,7 @@ class HashtagText extends StatelessWidget {
           TextSpan(
             text: '$element ',
             style: const TextStyle(
-              color: Pallete.blueColor,
+              color: Pallete.deepPurpleAccentColor,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -38,7 +38,7 @@ class HashtagText extends StatelessWidget {
           TextSpan(
             text: '$element ',
             style: const TextStyle(
-              color: Pallete.blueColor,
+              color: Pallete.deepPurpleAccentColor,
               fontSize: 18,
             ),
           ),

@@ -28,7 +28,7 @@ class FollowCount extends StatelessWidget {
         Text(
           text,
           style: TextStyle(
-            color: Pallete.greyColor,
+            color: Pallete.lightPurpleColor,
             fontSize: fontSize,
           ),
         ),

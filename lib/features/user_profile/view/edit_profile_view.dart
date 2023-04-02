@@ -111,7 +111,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                                 )
                               : user.bannerPic.isEmpty
                                   ? Container(
-                                      color: Pallete.blueColor,
+                                      color: Pallete.deepPurpleAccentColor,
                                     )
                                   : Image.network(
                                       user.bannerPic,

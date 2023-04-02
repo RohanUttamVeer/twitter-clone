@@ -28,7 +28,7 @@ class _ExploreViewState extends ConsumerState<ExploreView> {
     final appBarTextFieldBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(50),
       borderSide: const BorderSide(
-        color: Pallete.searchBarColor,
+        color: Pallete.deepPurpleColor,
       ),
     );
     return Scaffold(
@@ -46,7 +46,7 @@ class _ExploreViewState extends ConsumerState<ExploreView> {
               contentPadding: const EdgeInsets.all(10).copyWith(
                 left: 20,
               ),
-              fillColor: Pallete.searchBarColor,
+              fillColor: Pallete.deepPurpleColor,
               filled: true,
               enabledBorder: appBarTextFieldBorder,
               focusedBorder: appBarTextFieldBorder,

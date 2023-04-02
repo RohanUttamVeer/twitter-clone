@@ -83,20 +83,20 @@ class _HomeViewState extends State<HomeView> {
       bottomNavigationBar: CupertinoTabBar(
         currentIndex: _page,
         onTap: onPageChange,
-        backgroundColor: Pallete.backgroundColor,
+        backgroundColor: Pallete.darkPurpleColor,
         items: [
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               _page == 0
                   ? AssetsConstants.homeFilledIcon
                   : AssetsConstants.homeOutlinedIcon,
-              color: Pallete.whiteColor,
+              color: Pallete.purpleAccentColor,
             ),
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               AssetsConstants.searchIcon,
-              color: Pallete.whiteColor,
+              color: Pallete.purpleAccentColor,
             ),
           ),
           BottomNavigationBarItem(
@@ -104,7 +104,7 @@ class _HomeViewState extends State<HomeView> {
               _page == 2
                   ? AssetsConstants.notifFilledIcon
                   : AssetsConstants.notifOutlinedIcon,
-              color: Pallete.whiteColor,
+              color: Pallete.purpleAccentColor,
             ),
           ),
         ],

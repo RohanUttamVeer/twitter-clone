@@ -65,8 +65,8 @@ class _CreateTweetScreenState extends ConsumerState<CreateTweetScreen> {
         actions: [
           RoundedSmallButton(
             onTap: shareTweet,
-            label: 'Tweet',
-            backgroundColor: Pallete.blueColor,
+            label: 'Post',
+            backgroundColor: Pallete.deepPurpleAccentColor,
             textColor: Pallete.whiteColor,
           ),
         ],
@@ -93,7 +93,7 @@ class _CreateTweetScreenState extends ConsumerState<CreateTweetScreen> {
                             decoration: const InputDecoration(
                               hintText: "What's happening?",
                               hintStyle: TextStyle(
-                                color: Pallete.greyColor,
+                                color: Pallete.lightPurpleColor,
                                 fontSize: 22,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -131,7 +131,7 @@ class _CreateTweetScreenState extends ConsumerState<CreateTweetScreen> {
         decoration: const BoxDecoration(
           border: Border(
             top: BorderSide(
-              color: Pallete.greyColor,
+              color: Pallete.lightPurpleColor,
               width: 0.3,
             ),
           ),

@@ -19,7 +19,7 @@ class SideDrawer extends ConsumerWidget {
 
     return SafeArea(
       child: Drawer(
-        backgroundColor: Pallete.backgroundColor,
+        backgroundColor: Pallete.darkPurpleColor,
         child: Column(
           children: [
             const SizedBox(height: 50),

@@ -37,7 +37,7 @@ class UserProfile extends ConsumerWidget {
                       Positioned.fill(
                         child: user.bannerPic.isEmpty
                             ? Container(
-                                color: Pallete.blueColor,
+                                color: Pallete.deepPurpleAccentColor,
                               )
                             : Image.network(
                                 user.bannerPic,
@@ -120,7 +120,7 @@ class UserProfile extends ConsumerWidget {
                           '@${user.name}',
                           style: const TextStyle(
                             fontSize: 17,
-                            color: Pallete.greyColor,
+                            color: Pallete.lightPurpleColor,
                           ),
                         ),
                         Text(
