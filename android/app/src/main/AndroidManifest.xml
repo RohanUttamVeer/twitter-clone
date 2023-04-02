@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.socially">
    <application
-        android:label="twitter_clone"
+        android:label="Socially"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
